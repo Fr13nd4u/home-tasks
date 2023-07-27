@@ -59,6 +59,23 @@
           <!-- Summary rows will be added here -->
         </tbody>
       </table>
+
+      <div id="edit-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="modal-close">&times;</span>
+          <h2>Edit Note</h2>
+          <form id="edit-note-form">
+            <input type="text" id="edit-note-content" required />
+            <select id="edit-note-category" required>
+              <option value="">Select Category</option>
+              <option value="Task">Task</option>
+              <option value="Random Thought">Random Thought</option>
+              <option value="Idea">Idea</option>
+            </select>
+            <button type="submit">Save</button>
+          </form>
+        </div>
+      </div>
     </div>
 
     <script src="scripts/data.js" type="module"></script>
