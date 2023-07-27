@@ -59,9 +59,6 @@ let notes = [
 
 const categories = ['Task', 'Random Thought', 'Idea'];
 
-export function getNotes() {
-  return notes;
-}
 
 export function addNote(note) {
   notes.push(note);
@@ -92,12 +89,34 @@ export function unarchiveNote(id) {
   }
 }
 
-export function countNotesByCategory(activeOnly = true) {
-  const filteredNotes = activeOnly ? notes.filter((note) => !note.archived) : notes;
+export function countNotesByCategory() {
+  const notes = getNotes();
   const summary = {};
-  categories.forEach((category) => {
-    const count = filteredNotes.filter((note) => note.category === category).length;
-    summary[category] = count;
+
+  notes.forEach((note) => {
+    if (summary[note.category]) {
+      summary[note.category].active += note.archived ? 0 : 1;
+      summary[note.category].archived += note.archived ? 1 : 0;
+    } else {
+      summary[note.category] = {
+        active: note.archived ? 0 : 1,
+        archived: note.archived ? 1 : 0,
+      };
+    }
   });
+
   return summary;
+}
+
+// helpers
+export function formatDate(dateString) {
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return `${month}/${day}/${year}`;
+}
+
+export function getNotes() {
+  return notes;
 }

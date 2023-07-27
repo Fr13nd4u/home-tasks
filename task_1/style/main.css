@@ -12,6 +12,12 @@ text-align: center;
 margin-bottom: 20px;
 }
 
+.head {
+    display: flex;
+    gap: 30px;
+    align-items: baseline;
+}
+
 table {
 width: 100%;
 border-collapse: collapse;

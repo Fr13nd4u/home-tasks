@@ -1,5 +1,12 @@
-import { addNote, getNotes, removeNote, editNote } from './data.js';
-import { renderNotesTable, renderSummaryTable } from './render.js';
+import { 
+  addNote,
+  archiveNote,
+  editNote,
+  getNotes,
+  removeNote,
+  unarchiveNote
+} from './data.js';
+import { renderNotesTable, renderSummaryTable, renderArchivedNotes } from './render.js';
 
 const addNoteForm = document.querySelector('#add-note-form');
 const noteContentInput = document.querySelector('#note-content');
@@ -107,7 +114,35 @@ editNoteForm.addEventListener('submit', (event) => {
 
   editNote(note);
 
-  init()
+  init();
+});
+
+// Event listener to handle "Archive" button clicks
+document.addEventListener('click', (event) => {
+  if (event.target.classList.contains('archive')) {
+    const noteId = parseInt(event.target.dataset.noteId);
+
+    archiveNote(noteId);
+    init();
+  }
+});
+
+// Event listener to handle "Unarchive" button click
+document.addEventListener('click', (event) => {
+  if (event.target.classList.contains('unarchive')) {
+    const noteId = parseInt(event.target.dataset.noteId);
+
+    unarchiveNote(noteId);
+    init();
+  }
+});
+
+document.getElementById('showArchivedBtn').addEventListener('click', () => {
+  renderArchivedNotes();
+});
+
+document.getElementById('showActiveBtn').addEventListener('click', () => {
+  renderNotesTable();
 });
 
 function getNoteById(noteId) {
