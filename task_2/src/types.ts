@@ -1,6 +1,6 @@
 export const notes = [
   {
-    id: 1,
+    id: '1',
     time: '2023-07-26T09:00:00',
     content: 'Buy groceries',
     category: 'Task',
@@ -8,7 +8,7 @@ export const notes = [
     archived: false,
   },
   {
-    id: 2,
+    id: '2',
     time: '2023-07-26T12:30:00',
     content: 'Call Mom',
     category: 'Task',
@@ -16,7 +16,7 @@ export const notes = [
     archived: false,
   },
   {
-    id: 3,
+    id: '3',
     time: '2023-07-26T15:15:00',
     content: 'Write a blog post',
     category: 'Task',
@@ -24,7 +24,7 @@ export const notes = [
     archived: false,
   },
   {
-    id: 4,
+    id: '4',
     time: '2023-07-25T18:45:00',
     content: 'Idea: Start a side project',
     category: 'Idea',
@@ -32,7 +32,7 @@ export const notes = [
     archived: false,
   },
   {
-    id: 5,
+    id: '5',
     time: '2023-07-24T14:00:00',
     content: 'Random Thought: Life is short',
     category: 'Random Thought',
@@ -40,7 +40,7 @@ export const notes = [
     archived: false,
   },
   {
-    id: 6,
+    id: '6',
     time: '2023-07-23T11:10:00',
     content: 'Idea: Travel to Japan',
     category: 'Idea',
@@ -48,7 +48,7 @@ export const notes = [
     archived: false,
   },
   {
-    id: 7,
+    id: '7',
     time: '2023-07-22T08:20:00',
     content: 'Idea: Learn to play the guitar',
     category: 'Idea',
@@ -58,7 +58,7 @@ export const notes = [
 ];
 
 export interface INote {
-  id?: number;
+  id: string;
   time: string;
   content: string;
   category: string;

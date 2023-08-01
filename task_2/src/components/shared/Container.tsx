@@ -1,5 +1,13 @@
-import * as React from "react";
+import styled from "styled-components";
 
-export const Container = () => {
-  return <div>Container</div>;
+interface IContainer {
+  children: React.ReactNode;
+}
+export const Container: React.FC<IContainer> = ({ children }) => {
+  return <ContainerWrap>{children}</ContainerWrap>;
 };
+
+const ContainerWrap = styled.div`
+  width: 85%;
+  margin: 0 auto;
+`;

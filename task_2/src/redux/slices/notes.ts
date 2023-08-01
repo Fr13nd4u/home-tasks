@@ -16,7 +16,7 @@ const notesSlice = createSlice({
     addNote: (state, action: PayloadAction<INote>) => {
       state.notes.push(action.payload);
     },
-    removeNote: (state, action: PayloadAction<number>) => {
+    removeNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
     editNote: (state, action: PayloadAction<INote>) => {
@@ -26,16 +26,22 @@ const notesSlice = createSlice({
         state.notes[index] = editedNote;
       }
     },
-    // archiveNote: (state, action: PayloadAction<number>) => {
-    //   const editedNote = action.payload;
-    //   const index = state.notes.findIndex((note) => note.id === action.payload);
-    //   if (index !== -1) {
-    //     state.notes[index] = editedNote;
-    //   }
-    // }
+    archiveNote: (state, action: PayloadAction<string>) => {
+      const noteIndex = state.notes.findIndex((note) => note.id === action.payload);
+      if (noteIndex !== -1) {
+        state.notes[noteIndex].archived = true;
+      }
+    },
+    unarchiveNote: (state, action: PayloadAction<string>) => {
+      const noteIndex = state.notes.findIndex((note) => note.id === action.payload);
+      if (noteIndex !== -1) {
+        state.notes[noteIndex].archived = false;
+      }
+    },
   },
 });
 
+
 const { reducer, actions } = notesSlice;
-export const { addNote, removeNote, editNote } = actions;
+export const  { addNote, editNote, removeNote, archiveNote, unarchiveNote } = actions;
 export default reducer;
