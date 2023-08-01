@@ -15,16 +15,20 @@ interface NoteFormProps {
 
 export const NoteForm: React.FC<NoteFormProps> = ({ note }) => {
   const dispatch = useDispatch();
-  const [category, setCategory] = React.useState(note?.category || "Task");
-  const [content, setContent] = React.useState(note?.content || "");
-  const [dates, setDates] = React.useState(note?.dates.join(",") || "");
+  const [formData, setFormData] = React.useState({
+    category: note?.category || "Task",
+    content: note?.content || "",
+    dates: note?.dates.join(",") || "",
+  });
 
   const handleSaveNote = () => {
-    const newDates = dates.split(",").map((date) => date.trim());
+    const { category, content, dates } = formData;
 
     if (!category || !content || !dates) {
       return;
     }
+
+    const newDates = dates.split(",").map((date) => date.trim());
 
     if (note) {
       const editedNote: INote = {
@@ -48,9 +52,11 @@ export const NoteForm: React.FC<NoteFormProps> = ({ note }) => {
       dispatch(addNote(newNote));
     }
 
-    setCategory("Task");
-    setContent("");
-    setDates("");
+    setFormData({
+      category: "Task",
+      content: "",
+      dates: "",
+    });
   };
 
   return (
@@ -59,35 +65,41 @@ export const NoteForm: React.FC<NoteFormProps> = ({ note }) => {
       <InputLabel>
         Category:
         <SelectInput
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={formData.category}
+          onChange={(e) =>
+            setFormData({ ...formData, category: e.target.value })
+          }
         >
           <option value="Task">Task</option>
-          <option value="Idea">Idea</option>
-          <option value="Quote">Quote</option>
-          <option value="Random Thought">Random Thought</option>
+          <option value="Reminder">Reminder</option>
+          <option value="Event">Event</option>
         </SelectInput>
       </InputLabel>
       <InputLabel>
         Content:
         <TextInput
           type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
+          value={formData.content}
+          onChange={(e) =>
+            setFormData({ ...formData, content: e.target.value })
+          }
         />
       </InputLabel>
       <InputLabel>
         Dates:
         <DatePickerWrapper>
           <DatePicker
-            selected={dates ? new Date(dates) : null}
-            onChange={(date: { toISOString: () => string }) =>
-              setDates(date?.toISOString() || "")
+            selected={formData.dates ? new Date(formData.dates) : null}
+            onChange={(newDates: { toISOString: () => string }) =>
+              setFormData({
+                ...formData,
+                dates: newDates ? newDates.toISOString() : "",
+              })
             }
           />
         </DatePickerWrapper>
       </InputLabel>
-      <Button onClick={() => handleSaveNote()}>
+      <Button onClick={handleSaveNote}>
         {note ? "Save Changes" : "Add Note"}
       </Button>
     </FormWrapper>
