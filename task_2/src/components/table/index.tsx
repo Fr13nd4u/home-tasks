@@ -59,6 +59,7 @@ const TableHead = styled.thead`
   th {
     padding: 1rem;
     background: lavender;
+    text-align: left;
   }
 `;
 

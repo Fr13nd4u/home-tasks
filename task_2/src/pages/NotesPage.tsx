@@ -12,8 +12,8 @@ export const NotesPage: React.FC = () => {
 
   return (
     <Container>
-      <NoteForm />
       <NoteList notes={notes} />
+      <NoteForm />
       <NoteSummary notes={notes} />
     </Container>
   );

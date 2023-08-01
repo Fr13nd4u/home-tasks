@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { INote } from "../../types";
 import { removeNote } from "../../redux/slices/notes";
 import { Table, TableColumn } from "../table";
+import { Button } from "../shared";
 
 interface NoteListProps {
   notes: INote[];
@@ -28,10 +29,10 @@ export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
     },
     {
       label: "Actions",
-      key: "actions",
+      key: "id",
       render: (id: string) => (
         <>
-          <button onClick={() => handleRemoveNote(id)}>Remove</button>
+          <Button onClick={() => handleRemoveNote(id)}>Remove</Button>
         </>
       ),
     },
