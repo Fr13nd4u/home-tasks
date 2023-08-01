@@ -11,14 +11,15 @@ import { Button } from "../shared";
 
 interface NoteFormProps {
   note?: INote | null;
+  setModalActive?: () => void;
 }
 
-export const NoteForm: React.FC<NoteFormProps> = ({ note }) => {
+export const NoteForm: React.FC<NoteFormProps> = ({ note, setModalActive }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = React.useState({
     category: note?.category || "Task",
     content: note?.content || "",
-    dates: note?.dates.join(",") || "",
+    dates: note?.dates || "",
   });
 
   const handleSaveNote = () => {
@@ -28,24 +29,23 @@ export const NoteForm: React.FC<NoteFormProps> = ({ note }) => {
       return;
     }
 
-    const newDates = dates.split(",").map((date) => date.trim());
-
     if (note) {
       const editedNote: INote = {
         ...note,
         category,
         content,
-        dates: newDates,
+        dates,
       };
 
       dispatch(editNote(editedNote));
+      setModalActive(false);
     } else {
       const newNote: INote = {
         id: Date.now().toString(),
         time: new Date().toISOString(),
         content,
         category,
-        dates: newDates,
+        dates,
         archived: false,
       };
 
@@ -71,8 +71,9 @@ export const NoteForm: React.FC<NoteFormProps> = ({ note }) => {
           }
         >
           <option value="Task">Task</option>
-          <option value="Reminder">Reminder</option>
-          <option value="Event">Event</option>
+          <option value="Idea">Idea</option>
+          <option value="Quote">Quote</option>
+          <option value="Random Thought">Random Thought</option>
         </SelectInput>
       </InputLabel>
       <InputLabel>
