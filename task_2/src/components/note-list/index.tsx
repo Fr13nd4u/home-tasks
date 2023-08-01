@@ -2,7 +2,11 @@ import React from "react";
 import { useDispatch } from "react-redux";
 
 import { INote } from "../../types";
-import { removeNote } from "../../redux/slices/notes";
+import {
+  archiveNote,
+  removeNote,
+  unarchiveNotes,
+} from "../../redux/slices/notes";
 import { Table, TableColumn } from "../table";
 import { Button } from "../shared";
 
@@ -11,10 +15,23 @@ interface NoteListProps {
 }
 
 export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
+  const noArchivedNotes = notes.filter((note) => !note.archived);
   const dispatch = useDispatch();
 
   const handleRemoveNote = (id: string) => {
     dispatch(removeNote(id));
+  };
+
+  const handleArchiveNote = (id: string) => {
+    dispatch(archiveNote(id));
+  };
+
+  const handleEditNote = (id: string) => {
+    // dispatch(archiveNote(id));
+  };
+
+  const handleUnarchiveNote = () => {
+    dispatch(unarchiveNotes());
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,6 +49,8 @@ export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
       key: "id",
       render: (id: string) => (
         <>
+          <Button onClick={() => handleEditNote(id)}>Edit</Button>
+          <Button onClick={() => handleArchiveNote(id)}>Archive</Button>
           <Button onClick={() => handleRemoveNote(id)}>Remove</Button>
         </>
       ),
@@ -40,7 +59,8 @@ export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
 
   return (
     <>
-      <Table data={notes} columns={columns} />
+      <Table data={noArchivedNotes} columns={columns} />
+      <Button onClick={() => handleUnarchiveNote()}>Unarchive All</Button>
     </>
   );
 };
