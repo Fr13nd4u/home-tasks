@@ -35,6 +35,7 @@ const ModalWrapper = styled.div<{ active: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 999;
 
   display: flex;
   justify-content: center;
@@ -49,7 +50,6 @@ const ModalContent = styled.div<{ active: boolean }>`
   display: flex;
   padding: 27px 24px 24px;
   min-width: 448px;
-  min-height: 418px;
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.039),
     0px 5.5px 16px rgba(0, 0, 0, 0.19);
   border-radius: 24px;

@@ -5,7 +5,8 @@ import { INote } from "../../types";
 import {
   archiveNote,
   removeNote,
-  unarchiveNotes,
+  unarchiveAllNotes,
+  unarchiveNote,
 } from "../../redux/slices/notes";
 import { Table, TableColumn } from "../table";
 import { Button, Modal } from "../shared";
@@ -18,9 +19,13 @@ interface NoteListProps {
 
 export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
   const [modalActive, setModalActive] = React.useState(false);
+  const [showArchived, setShowArchived] = React.useState(false); // New state variable to track archived items
+
   const dispatch = useDispatch();
 
-  const noArchivedNotes = notes.filter((note) => !note.archived);
+  const filteredNotes = showArchived
+    ? notes.filter((note) => note.archived)
+    : notes.filter((note) => !note.archived);
 
   const handleRemoveNote = (id: string) => {
     dispatch(removeNote(id));
@@ -30,12 +35,16 @@ export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
     dispatch(archiveNote(id));
   };
 
+  const handleUnrchiveNote = (id: string) => {
+    dispatch(unarchiveNote(id));
+  };
+
   const handleEditNote = () => {
     setModalActive(true);
   };
 
-  const handleUnarchiveNote = () => {
-    dispatch(unarchiveNotes());
+  const handleUnarchiveAllNotes = () => {
+    dispatch(unarchiveAllNotes());
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,7 +67,13 @@ export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
       render: (id: string) => (
         <>
           <Button onClick={() => handleEditNote()}>Edit</Button>
-          <Button onClick={() => handleArchiveNote(id)}>Archive</Button>
+
+          {showArchived ? (
+            <Button onClick={() => handleUnrchiveNote(id)}>Unarchive</Button>
+          ) : (
+            <Button onClick={() => handleArchiveNote(id)}>Archive</Button>
+          )}
+
           <Button onClick={() => handleRemoveNote(id)}>Remove</Button>
           <Modal
             title="Edit Note"
@@ -77,8 +92,12 @@ export const NoteList: React.FC<NoteListProps> = ({ notes }) => {
 
   return (
     <>
-      <Table data={noArchivedNotes} columns={columns} />
-      <Button onClick={() => handleUnarchiveNote()}>Unarchive All</Button>
+      <Table data={filteredNotes} columns={columns} />
+      <Button onClick={() => handleUnarchiveAllNotes()}>Unarchive All</Button>
+
+      <Button onClick={() => setShowArchived(!showArchived)}>
+        {showArchived ? "Hide Archived" : "Show Archived"}
+      </Button>
     </>
   );
 };
