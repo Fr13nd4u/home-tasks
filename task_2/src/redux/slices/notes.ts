@@ -32,7 +32,13 @@ const notesSlice = createSlice({
         state.notes[noteIndex].archived = true;
       }
     },
-    unarchiveNotes: (state) => {
+    unarchiveNote: (state, action: PayloadAction<string>) => {
+      const noteIndex = state.notes.findIndex((note) => note.id === action.payload);
+      if (noteIndex !== -1) {
+        state.notes[noteIndex].archived = false;
+      }
+    },
+    unarchiveAllNotes: (state) => {
       state.notes.forEach((note) => {
         note.archived = false;
       });
@@ -42,5 +48,5 @@ const notesSlice = createSlice({
 
 
 const { reducer, actions } = notesSlice;
-export const  { addNote, editNote, removeNote, archiveNote, unarchiveNotes } = actions;
+export const  { addNote, editNote, removeNote, archiveNote,unarchiveNote,  unarchiveAllNotes } = actions;
 export default reducer;
