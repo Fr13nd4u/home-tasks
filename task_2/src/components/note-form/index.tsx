@@ -121,8 +121,10 @@ const FormWrapper = styled.div`
 
 const InputLabel = styled.label`
   flex: 1;
-  display: block;
+  display: flex;
   margin-right: 10px;
+  align-items: baseline;
+  gap: 10px;
 `;
 
 const SelectInput = styled.select`
