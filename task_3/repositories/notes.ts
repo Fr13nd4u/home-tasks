@@ -1,4 +1,5 @@
-import { Note } from '../types';
+import { v4 as uuidv4 } from 'uuid';
+import { NoteBody, Note } from '../types';
 
 let notes: Note[] = [
   {
@@ -59,21 +60,33 @@ let notes: Note[] = [
   },
 ];
 
+const generateUniqueId = (): string => uuidv4();
+
 export const getAllNotes = (): Note[] => notes;
 
 export const getNoteById = (id: string): Note | undefined =>
   notes.find((note) => note.id === id);
 
-export const createNote = (note: Note): Note => {
-  notes.push(note);
-  return note;
+export const createNote = (note: NoteBody): Note => {
+  const newNote: Note = {
+    ...note,
+    id: generateUniqueId(), 
+    time: new Date().toISOString(), 
+  };
+  notes.push(newNote);
+  return newNote;
 };
 
-export const updateNote = (id: string, updatedNote: Note): Note | undefined => {
+export const updateNote = (id: string, updatedNote: NoteBody): Note | undefined => {
   const index = notes.findIndex((note) => note.id === id);
   if (index !== -1) {
-    notes[index] = updatedNote;
-    return updatedNote;
+    const updatedNoteWithId: Note = {
+      ...updatedNote,
+      id: notes[index].id,
+      time: notes[index].time,
+    };
+    notes[index] = updatedNoteWithId;
+    return updatedNoteWithId;
   }
   return undefined;
 };

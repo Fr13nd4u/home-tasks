@@ -1,15 +1,13 @@
 import * as yup from 'yup';
-import { Note } from '../types';
+import { NoteBody, Note } from '../types';
 
 export const noteSchema = yup.object({
-  id: yup.string().required(),
-  time: yup.string().required(),
   dates: yup.string().required(),
-  category: yup.string().required(),
-  content: yup.string().required(),
+  category: yup.string().min(2).max(64).required(),
+  content: yup.string().min(2).max(255).required(),
   archived: yup.boolean().required(),
 });
 
-export const validateNote = async (note: Note): Promise<void> => {
+export const validateNote = async (note: NoteBody): Promise<void> => {
   await noteSchema.validate(note, { abortEarly: false });
 };
