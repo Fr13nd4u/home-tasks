@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import * as NotesService from '../services/notes';
+import { validateNote } from '../validators/noteSchema';
 
 const notesRouter = express.Router();
 
@@ -10,7 +11,9 @@ notesRouter.get('/stats', (req: Request, res: Response) => {
 
 notesRouter.post('/', async (req: Request, res: Response) => {
   try {
+    await validateNote(req.body);
     const newNote = await NotesService.createNote(req.body);
+
     res.status(201).json(newNote);
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
@@ -30,7 +33,9 @@ notesRouter.delete('/:id', (req: Request, res: Response) => {
 notesRouter.patch('/:id', async (req: Request, res: Response) => {
   const id = req.params.id;
   try {
+    await validateNote(req.body);
     const updatedNote = await NotesService.updateNote(id, req.body);
+
     if (updatedNote) {
       res.json(updatedNote);
     } else {
