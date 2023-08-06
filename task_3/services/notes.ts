@@ -1,5 +1,5 @@
 import * as NotesRepository from '../repositories/notes';
-import { NoteBody, Note } from '../types';
+import { NoteBody, Note, Static } from '../types';
 import { validateNote } from '../validators/noteSchema';
 
 export const getAllNotes = (): Note[] => NotesRepository.getAllNotes();
@@ -18,3 +18,5 @@ export const updateNote = async (id: string, updatedNote: NoteBody): Promise<Not
 };
 
 export const deleteNote = (id: string): boolean => NotesRepository.deleteNote(id);
+
+export const getStats = (): Static[] => NotesRepository.getStats();

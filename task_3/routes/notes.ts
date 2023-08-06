@@ -3,6 +3,11 @@ import * as NotesService from '../services/notes';
 
 const notesRouter = express.Router();
 
+notesRouter.get('/stats', (req: Request, res: Response) => {
+  const stats = NotesService.getStats();
+  res.json(stats)
+})
+
 notesRouter.post('/', async (req: Request, res: Response) => {
   try {
     const newNote = await NotesService.createNote(req.body);

@@ -13,3 +13,9 @@ export interface NoteBody {
   dates: string;
   archived: boolean;
 }
+
+export interface Static {
+  category: string;
+  active: number;
+  archived: number;
+}

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { NoteBody, Note } from '../types';
+import { NoteBody, Note, Static } from '../types';
 
 let notes: Note[] = [
   {
@@ -96,3 +96,25 @@ export const deleteNote = (id: string): boolean => {
   notes = notes.filter((note) => note.id !== id);
   return notes.length !== initialLength;
 };
+
+export const getStats = (): Static[] => {
+  const notesCategories = notes
+    .map((item) => item.category)
+    .filter((value, index, array) => array.indexOf(value) === index);
+
+  return notesCategories.map((category) => {
+      const activeNotesCount = notes.filter(
+        (note) => note.category === category && !note.archived
+      ).length;
+
+      const archivedNotesCount = notes.filter(
+        (note) => note.category === category && note.archived
+      ).length;
+
+    return {
+      category,
+      active: activeNotesCount,
+      archived: archivedNotesCount,
+    }
+  })
+}
