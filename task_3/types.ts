@@ -6,3 +6,16 @@ export interface Note {
   dates: string;
   archived: boolean;
 }
+
+export interface NoteBody {
+  content: string;
+  category: string;
+  dates: string;
+  archived: boolean;
+}
+
+export interface Static {
+  category: string;
+  active: number;
+  archived: number;
+}
